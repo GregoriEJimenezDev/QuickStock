@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """QuickStock: punto de entrada de la aplicación de consola."""
 from __future__ import annotations
 import sys
@@ -6,10 +7,10 @@ import os as _os
 sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
 sys.setrecursionlimit(20000)
 
-from estructuras.bst import ArbolBST
-from servicios.inventario import ServicioInventario
-from vista.consola import VistaConsola
-from vista.menu import MenuConsola
+from estructure.bst import ArbolBST
+from services.inventario import ServicioInventario
+from view.consola import VistaConsola
+from view.menu import MenuConsola
 
 
 # Complejidad: O(t) donde t = interacciones del usuario en el menú

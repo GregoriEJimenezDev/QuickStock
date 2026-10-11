@@ -4,7 +4,7 @@ from typing import Callable, Optional
 import sys
 import os as _os
 sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-from modelos.producto import Producto
+from models.producto import Producto
 
 Visitante = Callable[[Producto], None]
 

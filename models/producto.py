@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 import os as _os
 sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-from servicios.validador import Validador
+from services.validador import Validador
 
 
 class Producto:

@@ -3,10 +3,10 @@ from __future__ import annotations
 import sys
 import os as _os
 sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-from servicios.inventario import ServicioInventario
-from servicios.validador import Validador
-from vista.consola import VistaConsola
-from vista.constantes import (MSG_SIN_PRODUCTOS, MSG_NO_ENCONTRADO,
+from services.inventario import ServicioInventario
+from services.validador import Validador
+from view.consola import VistaConsola
+from view.constantes import (MSG_SIN_PRODUCTOS, MSG_NO_ENCONTRADO,
                               MSG_DUPLICADO, MSG_RANGO_INVALIDO,
                               MSG_SIN_RESULTADOS, MSG_CANCELADO,
                               MSG_CONFIRMAR_SALIR, MSG_CONFIRMAR_ELIMINAR,

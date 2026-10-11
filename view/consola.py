@@ -4,8 +4,8 @@ import shutil
 import sys
 import os as _os
 sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-from modelos.producto import Producto
-from vista.constantes import (TITULO_APP, MENU_PRINCIPAL, SUBMENU_LISTAR,
+from models.producto import Producto
+from view.constantes import (TITULO_APP, MENU_PRINCIPAL, SUBMENU_LISTAR,
                               SUBMENU_REPORTES, ENCABEZADO_PRODUCTO, SEPARADOR)
 
 
