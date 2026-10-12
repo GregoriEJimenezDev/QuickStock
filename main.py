@@ -2,42 +2,39 @@
 """QuickStock: punto de entrada de la aplicación de consola."""
 from __future__ import annotations
 import sys
-import os as _os
 
-sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
 sys.setrecursionlimit(20000)
 
-from estructure.bst import ArbolBST
+from estructura.bst import ArbolBST
 from services.inventario import ServicioInventario
 from view.consola import VistaConsola
 from view.menu import MenuConsola
+from view.constantes import MSG_ERROR_INESPERADO, MSG_NO_INICIO, MSG_SALIDA_ANORMAL
+
+
+# Complejidad: O(1)
+def build_app() -> MenuConsola:
+    """Instancia y cablea árbol, servicio, vista y menú."""
+    arbol = ArbolBST()
+    servicio = ServicioInventario(arbol)
+    vista = VistaConsola()
+    return MenuConsola(servicio, vista)
 
 
 # Complejidad: O(t) donde t = interacciones del usuario en el menú
 def main() -> None:
-    arbol = None
-    servicio = None
-    vista = VistaConsola()
+    """Arranca el menú; el resumen final se muestra una sola vez."""
     try:
-        arbol = ArbolBST()
-        servicio = ServicioInventario(arbol)
-        menu = MenuConsola(servicio, vista)
+        menu = build_app()
+    except Exception:
+        print(MSG_NO_INICIO)
+        return
+    try:
         menu.ejecutar()
     except (EOFError, KeyboardInterrupt):
-        vista.mostrar_mensaje("Programa terminado.")
+        menu.error_y_resumen(MSG_SALIDA_ANORMAL)
     except Exception as error:
-        vista.mostrar_error("Error inesperado: %s" % error)
-    finally:
-        try:
-            if servicio is not None:
-                total = servicio.total_productos()
-                vista.mostrar_mensaje("Resumen final: total de productos = %d." % total)
-            else:
-                vista.mostrar_mensaje(
-                    "Resumen final no disponible (el programa terminó antes de iniciar).")
-        except Exception:
-            vista.mostrar_mensaje(
-                "Resumen final no disponible (el programa terminó antes de iniciar).")
+        menu.error_y_resumen(MSG_ERROR_INESPERADO % error)
 
 
 if __name__ == "__main__":

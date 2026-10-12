@@ -1,9 +1,6 @@
 """Entidad Producto + Builder + Factory."""
 from __future__ import annotations
-import sys
-import os as _os
-sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-from services.validador import Validador
+from models.validador import Validador
 
 
 class Producto:
@@ -110,8 +107,7 @@ class ProductoBuilder:
     # Complejidad: O(1)
     def build(self) -> Producto:
         """Valida todo y construye el Producto."""
-        codigo = Validador.codigo(self._codigo) if isinstance(
-            self._codigo, int) and not isinstance(self._codigo, bool) else Validador.codigo(self._codigo)
+        codigo = Validador.codigo(self._codigo)
         nombre = Validador.texto_no_vacio(self._nombre or "", "El nombre")
         categoria = Validador.texto_no_vacio(self._categoria or "", "La categoría")
         precio = Validador.precio(self._precio)

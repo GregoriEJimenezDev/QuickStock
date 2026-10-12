@@ -1,10 +1,8 @@
-"""BST manual. Clave = codigo del producto. Sin listas/dicts internos."""
+"""BST manual. Clave = codigo del producto."""
 from __future__ import annotations
 from typing import Callable, Optional
-import sys
-import os as _os
-sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
 from models.producto import Producto
+from models.protocolos import RepositorioProductos
 
 Visitante = Callable[[Producto], None]
 
@@ -49,7 +47,7 @@ class NodoBST:
         self._derecho = valor
 
 
-class ArbolBST:
+class ArbolBST(RepositorioProductos):
     """Árbol de búsqueda binaria manual (estructura principal)."""
 
     # Complejidad: O(1)

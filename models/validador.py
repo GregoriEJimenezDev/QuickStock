@@ -1,5 +1,6 @@
-"""Validador centralizado (DRY: única implementación de reglas)."""
+"""Validador centralizado."""
 from __future__ import annotations
+import math
 
 
 class Validador:
@@ -27,9 +28,10 @@ class Validador:
     def precio(valor: float) -> float:
         if not isinstance(valor, (int, float)) or isinstance(valor, bool):
             raise ValueError("El precio debe ser numérico.")
-        if float(valor) <= 0:
-            raise ValueError("El precio debe ser mayor que 0.")
-        return float(valor)
+        numero = float(valor)
+        if not math.isfinite(numero) or numero <= 0:
+            raise ValueError("El precio debe ser un número finito mayor que 0.")
+        return numero
 
     # Complejidad: O(1)
     @staticmethod
@@ -42,8 +44,12 @@ class Validador:
 
     # Complejidad: O(1)
     @staticmethod
-    def limite_stock(valor: int) -> int:
-        return Validador.stock(valor)
+    def umbral_stock(valor: int) -> int:
+        if not isinstance(valor, int) or isinstance(valor, bool):
+            raise ValueError("El umbral debe ser un número entero.")
+        if valor < 0:
+            raise ValueError("El umbral no puede ser negativo.")
+        return valor
 
     # Complejidad: O(1)
     @staticmethod

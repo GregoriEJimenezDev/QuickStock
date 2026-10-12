@@ -1,20 +1,23 @@
-"""Servicio de inventario: reglas de negocio sobre el BST (DIP por constructor)."""
+"""Servicio de inventario: reglas de negocio sobre el BST."""
 from __future__ import annotations
 from typing import Callable, Optional
-import sys
-import os as _os
-sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+from estructura.recorrido import Recorrido
 from models.producto import Producto, ProductoFactory
-from estructure.bst import ArbolBST
+from models.protocolos import RepositorioProductos
+from models.validador import Validador
 
 
 class ServicioInventario:
     """Orquesta CRUD y reportes. Depende de abstracciones inyectadas."""
 
     # Complejidad: O(1)
-    def __init__(self, arbol: ArbolBST) -> None:
-        """Recibe el árbol por inyección (no lo instancia internamente)."""
+    def __init__(self, arbol: RepositorioProductos) -> None:
         self._arbol = arbol
+        self._recorridos = {
+            Recorrido.INORDEN: arbol.inorden,
+            Recorrido.PREORDEN: arbol.preorden,
+            Recorrido.POSTORDEN: arbol.postorden,
+        }
 
     # Complejidad: O(h) promedio, O(n) peor caso (delega en BST)
     def registrar(self, codigo: int, nombre: str, categoria: str,
@@ -30,14 +33,18 @@ class ServicioInventario:
     # Complejidad: O(h) promedio, O(n) peor caso (búsqueda del BST)
     def editar(self, codigo: int, nombre: str, categoria: str,
                precio: float, stock: int) -> bool:
-        """Edita campos (código inmutable); False si no existe."""
+        """Valida los 4 valores antes de asignar; lo fallido no cambia nada."""
         producto = self._arbol.buscar(codigo)
         if producto is None:
             return False
-        producto.nombre = nombre
-        producto.categoria = categoria
-        producto.precio = precio
-        producto.stock = stock
+        nombre_ok = Validador.texto_no_vacio(nombre, "El nombre")
+        categoria_ok = Validador.texto_no_vacio(categoria, "La categoría")
+        precio_ok = Validador.precio(precio)
+        stock_ok = Validador.stock(stock)
+        producto.nombre = nombre_ok
+        producto.categoria = categoria_ok
+        producto.precio = precio_ok
+        producto.stock = stock_ok
         return True
 
     # Complejidad: O(h) promedio, O(n) peor caso (delega en BST)
@@ -46,16 +53,10 @@ class ServicioInventario:
         return self._arbol.eliminar(codigo)
 
     # Complejidad: O(n)
-    def listar(self, modo: str, visitante: Callable[[Producto], None]) -> bool:
-        """Lista con el recorrido pedido ('inorden'/'preorden'/'postorden')."""
+    def listar(self, recorrido: Recorrido, visitante: Callable[[Producto], None]) -> bool:
         if self._arbol.esta_vacio():
             return False
-        if modo == "preorden":
-            self._arbol.preorden(visitante)
-        elif modo == "postorden":
-            self._arbol.postorden(visitante)
-        else:
-            self._arbol.inorden(visitante)
+        self._recorridos[recorrido](visitante)
         return True
 
     # Complejidad: O(n)
