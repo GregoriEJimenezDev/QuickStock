@@ -18,13 +18,11 @@ class MenuConsola:
 
     # Complejidad: O(1)
     def __init__(self, servicio: ServicioInventario, vista: VistaConsola) -> None:
-        """Guarda las dependencias inyectadas (DIP)."""
         self._servicio = servicio
         self._vista = vista
 
     # Complejidad: O(t) donde t = interacciones del usuario
     def ejecutar(self) -> None:
-        """Bucle principal hasta Salir con confirmación y resumen final."""
         self._vista.mostrar_titulo()
         while True:
             self._vista.mostrar_menu_principal()
@@ -51,7 +49,6 @@ class MenuConsola:
 
     # Complejidad: O(h) promedio, O(n) peor caso (inserción BST)
     def _opcion_registrar(self) -> None:
-        """Registra un producto validando unicidad y rangos."""
         self._vista.mostrar_encabezado("1. Registrar producto")
         codigo = self._vista.leer_entero("Código (entero > 0): ")
         if self._servicio.buscar_por_codigo(codigo) is not None:
@@ -73,7 +70,6 @@ class MenuConsola:
 
     # Complejidad: O(h) promedio, O(n) peor caso (búsqueda BST)
     def _opcion_buscar(self) -> None:
-        """Busca por código recorriendo el árbol."""
         self._vista.mostrar_encabezado("2. Buscar producto")
         codigo = self._vista.leer_entero("Código a buscar: ")
         producto = self._servicio.buscar_por_codigo(codigo)
@@ -85,7 +81,6 @@ class MenuConsola:
 
     # Complejidad: O(h) promedio, O(n) peor caso (búsqueda BST)
     def _opcion_editar(self) -> None:
-        """Edita nombre/categoría/precio/stock sin cambiar el código."""
         self._vista.mostrar_encabezado("3. Editar producto")
         codigo = self._vista.leer_entero("Código a editar: ")
         if self._servicio.buscar_por_codigo(codigo) is None:
@@ -107,7 +102,6 @@ class MenuConsola:
 
     # Complejidad: O(h) promedio, O(n) peor caso (eliminación BST)
     def _opcion_eliminar(self) -> None:
-        """Elimina con confirmación; si no existe, el árbol no se modifica."""
         self._vista.mostrar_encabezado("4. Eliminar producto")
         codigo = self._vista.leer_entero("Código a eliminar: ")
         producto = self._servicio.buscar_por_codigo(codigo)
@@ -126,7 +120,6 @@ class MenuConsola:
 
     # Complejidad: O(n)
     def _opcion_listar(self) -> None:
-        """Submenú de listados In-order / Pre-order / Post-order."""
         self._vista.mostrar_encabezado("5. Listar productos")
         self._vista.mostrar_submenu_listar()
         opcion = self._vista.leer_texto_libre("Elija (A/B/C/V): ").upper()
@@ -143,7 +136,6 @@ class MenuConsola:
 
     # Complejidad: O(n) peor caso (reportes sobre el BST)
     def _opcion_reportes(self) -> None:
-        """Submenú de reportes A/B/C/D."""
         self._vista.mostrar_encabezado("6. Generar reportes")
         self._vista.mostrar_submenu_reportes()
         opcion = self._vista.leer_texto_libre("Elija (A/B/C/D/V): ").upper()
@@ -164,7 +156,6 @@ class MenuConsola:
 
     # Complejidad: O(n)
     def _reporte_stock_bajo(self) -> None:
-        """Reporte A: productos con stock <= X."""
         limite = self._vista.leer_entero("Umbral X de stock (>= 0): ")
         try:
             Validador.limite_stock(limite)
@@ -178,7 +169,6 @@ class MenuConsola:
 
     # Complejidad: O(k + h) donde k = nodos en rango, O(n) peor caso
     def _reporte_rango(self) -> None:
-        """Reporte B: rango [mín, máx] con poda, re-pide si mín > máx."""
         while True:
             minimo = self._vista.leer_entero("Código mínimo: ")
             maximo = self._vista.leer_entero("Código máximo: ")
@@ -192,7 +182,6 @@ class MenuConsola:
 
     # Complejidad: O(n) por la altura; resto O(h)
     def _opcion_estado(self) -> None:
-        """Muestra total, altura, mínimo y máximo (maneja árbol vacío)."""
         self._vista.mostrar_encabezado("7. Estado del árbol")
         total, altura, minimo, maximo = self._servicio.estado()
         self._vista.mostrar_mensaje("Cantidad total de productos: %d" % total)
@@ -207,7 +196,6 @@ class MenuConsola:
 
     # Complejidad: O(n) por el resumen (conteo + altura)
     def _opcion_salir(self) -> bool:
-        """Pide confirmación y muestra el resumen final; True si sale."""
         if not self._vista.leer_confirmacion(MSG_CONFIRMAR_SALIR):
             self._vista.mostrar_mensaje(MSG_CANCELADO)
             return False

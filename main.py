@@ -15,7 +15,6 @@ from view.menu import MenuConsola
 
 # Complejidad: O(t) donde t = interacciones del usuario en el menú
 def main() -> None:
-    """Crea dependencias, las inyecta y ejecuta el menú hasta salir."""
     arbol = None
     servicio = None
     vista = VistaConsola()
@@ -41,11 +40,5 @@ def main() -> None:
                 "Resumen final no disponible (el programa terminó antes de iniciar).")
 
 
-# Complejidad: O(1)
-def _es_ejecucion_directa() -> bool:
-    """Indica si el archivo se ejecuta como programa principal."""
-    return __name__ == "__main__"
-
-
-if _es_ejecucion_directa():
+if __name__ == "__main__":
     main()

@@ -25,7 +25,6 @@ class ServicioInventario:
 
     # Complejidad: O(h) promedio, O(n) peor caso (delega en BST)
     def buscar_por_codigo(self, codigo: int) -> Optional[Producto]:
-        """Busca un producto por su código."""
         return self._arbol.buscar(codigo)
 
     # Complejidad: O(h) promedio, O(n) peor caso (búsqueda del BST)
@@ -67,7 +66,6 @@ class ServicioInventario:
 
         # Complejidad: O(1) por visita, O(n) total
         def _filtro(producto: Producto) -> None:
-            """Filtra por stock y reenvía al visitante real."""
             nonlocal hallados
             if producto.stock <= limite:
                 hallados += 1
@@ -84,7 +82,6 @@ class ServicioInventario:
 
         # Complejidad: O(1) por visita, O(k + h) total
         def _contador(producto: Producto) -> None:
-            """Cuenta y reenvía cada producto dentro del rango."""
             nonlocal hallados
             hallados += 1
             visitante(producto)
@@ -94,12 +91,10 @@ class ServicioInventario:
 
     # Complejidad: O(n)
     def total_productos(self) -> int:
-        """Retorna la cantidad de nodos del árbol."""
         return self._arbol.contar()
 
     # Complejidad: O(n)
     def valor_total(self) -> float:
-        """Retorna la suma de precio*stock del inventario."""
         return self._arbol.valor_total()
 
     # Complejidad: O(n) por la altura; resto O(h)

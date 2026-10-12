@@ -11,8 +11,7 @@ class Producto:
 
     # Complejidad: O(1)
     def __init__(self, codigo: int, nombre: str, categoria: str,
-                 precio: float, stock: int) -> None:
-        """Crea un producto ya validado."""
+                  precio: float, stock: int) -> None:
         self._codigo = codigo
         self._nombre = nombre
         self._categoria = categoria
@@ -28,54 +27,45 @@ class Producto:
     # Complejidad: O(1)
     @property
     def nombre(self) -> str:
-        """Retorna el nombre."""
         return self._nombre
 
     # Complejidad: O(1)
     @nombre.setter
     def nombre(self, valor: str) -> None:
-        """Actualiza el nombre validando no vacío."""
         self._nombre = Validador.texto_no_vacio(valor, "El nombre")
 
     # Complejidad: O(1)
     @property
     def categoria(self) -> str:
-        """Retorna la categoría."""
         return self._categoria
 
     # Complejidad: O(1)
     @categoria.setter
     def categoria(self, valor: str) -> None:
-        """Actualiza la categoría validando no vacío."""
         self._categoria = Validador.texto_no_vacio(valor, "La categoría")
 
     # Complejidad: O(1)
     @property
     def precio(self) -> float:
-        """Retorna el precio."""
         return self._precio
 
     # Complejidad: O(1)
     @precio.setter
     def precio(self, valor: float) -> None:
-        """Actualiza el precio validando que sea > 0."""
         self._precio = Validador.precio(valor)
 
     # Complejidad: O(1)
     @property
     def stock(self) -> int:
-        """Retorna el stock."""
         return self._stock
 
     # Complejidad: O(1)
     @stock.setter
     def stock(self, valor: int) -> None:
-        """Actualiza el stock validando que sea >= 0."""
         self._stock = Validador.stock(valor)
 
     # Complejidad: O(1)
     def __str__(self) -> str:
-        """Representación en una línea para listados."""
         return "%d | %s | %s | %.2f | %d" % (
             self._codigo, self._nombre, self._categoria,
             self._precio, self._stock)
@@ -86,7 +76,6 @@ class ProductoBuilder:
 
     # Complejidad: O(1)
     def __init__(self) -> None:
-        """Inicializa el builder sin datos."""
         self._codigo = None
         self._nombre = None
         self._categoria = None
@@ -95,31 +84,26 @@ class ProductoBuilder:
 
     # Complejidad: O(1)
     def con_codigo(self, codigo: int) -> "ProductoBuilder":
-        """Fija el código y retorna self para encadenar."""
         self._codigo = codigo
         return self
 
     # Complejidad: O(1)
     def con_nombre(self, nombre: str) -> "ProductoBuilder":
-        """Fija el nombre y retorna self para encadenar."""
         self._nombre = nombre
         return self
 
     # Complejidad: O(1)
     def con_categoria(self, categoria: str) -> "ProductoBuilder":
-        """Fija la categoría y retorna self para encadenar."""
         self._categoria = categoria
         return self
 
     # Complejidad: O(1)
     def con_precio(self, precio: float) -> "ProductoBuilder":
-        """Fija el precio y retorna self para encadenar."""
         self._precio = precio
         return self
 
     # Complejidad: O(1)
     def con_stock(self, stock: int) -> "ProductoBuilder":
-        """Fija el stock y retorna self para encadenar."""
         self._stock = stock
         return self
 
@@ -137,11 +121,6 @@ class ProductoBuilder:
 
 class ProductoFactory:
     """Factory que crea Productos usando el Builder internamente."""
-
-    # Complejidad: O(1)
-    def __init__(self) -> None:
-        """Inicializa la factory (sin estado)."""
-        pass
 
     # Complejidad: O(1)
     @staticmethod

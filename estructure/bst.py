@@ -14,7 +14,6 @@ class NodoBST:
 
     # Complejidad: O(1)
     def __init__(self, producto: Producto) -> None:
-        """Crea un nodo hoja con el producto dado."""
         self._producto = producto
         self._izquierdo: Optional["NodoBST"] = None
         self._derecho: Optional["NodoBST"] = None
@@ -22,37 +21,31 @@ class NodoBST:
     # Complejidad: O(1)
     @property
     def producto(self) -> Producto:
-        """Retorna el producto del nodo."""
         return self._producto
 
     # Complejidad: O(1)
     @producto.setter
     def producto(self, valor: Producto) -> None:
-        """Reemplaza el producto del nodo."""
         self._producto = valor
 
     # Complejidad: O(1)
     @property
     def izquierdo(self) -> Optional["NodoBST"]:
-        """Retorna el hijo izquierdo."""
         return self._izquierdo
 
     # Complejidad: O(1)
     @izquierdo.setter
     def izquierdo(self, valor: Optional["NodoBST"]) -> None:
-        """Fija el hijo izquierdo."""
         self._izquierdo = valor
 
     # Complejidad: O(1)
     @property
     def derecho(self) -> Optional["NodoBST"]:
-        """Retorna el hijo derecho."""
         return self._derecho
 
     # Complejidad: O(1)
     @derecho.setter
     def derecho(self, valor: Optional["NodoBST"]) -> None:
-        """Fija el hijo derecho."""
         self._derecho = valor
 
 
@@ -61,12 +54,10 @@ class ArbolBST:
 
     # Complejidad: O(1)
     def __init__(self) -> None:
-        """Inicializa un árbol vacío."""
         self._raiz: Optional[NodoBST] = None
 
     # Complejidad: O(1)
     def esta_vacio(self) -> bool:
-        """Indica si el árbol no tiene nodos."""
         return self._raiz is None
 
     # Complejidad: O(h) promedio, O(n) peor caso (árbol degenerado)
@@ -147,12 +138,10 @@ class ArbolBST:
 
     # Complejidad: O(n)
     def inorden(self, visitante: Visitante) -> None:
-        """Recorre Izq->Raíz->Der aplicando el visitante (callback)."""
         self._inorden_rec(self._raiz, visitante)
 
     # Complejidad: O(n)
     def _inorden_rec(self, nodo: Optional[NodoBST], visitante: Visitante) -> None:
-        """Ayudante recursivo del recorrido in-order."""
         if nodo is None:
             return
         self._inorden_rec(nodo.izquierdo, visitante)
@@ -161,12 +150,10 @@ class ArbolBST:
 
     # Complejidad: O(n)
     def preorden(self, visitante: Visitante) -> None:
-        """Recorre Raíz->Izq->Der aplicando el visitante (callback)."""
         self._preorden_rec(self._raiz, visitante)
 
     # Complejidad: O(n)
     def _preorden_rec(self, nodo: Optional[NodoBST], visitante: Visitante) -> None:
-        """Ayudante recursivo del recorrido pre-order."""
         if nodo is None:
             return
         visitante(nodo.producto)
@@ -175,12 +162,10 @@ class ArbolBST:
 
     # Complejidad: O(n)
     def postorden(self, visitante: Visitante) -> None:
-        """Recorre Izq->Der->Raíz aplicando el visitante (callback)."""
         self._postorden_rec(self._raiz, visitante)
 
     # Complejidad: O(n)
     def _postorden_rec(self, nodo: Optional[NodoBST], visitante: Visitante) -> None:
-        """Ayudante recursivo del recorrido post-order."""
         if nodo is None:
             return
         self._postorden_rec(nodo.izquierdo, visitante)
@@ -195,7 +180,6 @@ class ArbolBST:
     # Complejidad: O(k + h) donde k = nodos en rango, O(n) peor caso
     def _rango_rec(self, nodo: Optional[NodoBST], minimo: int,
                    maximo: int, visitante: Visitante) -> None:
-        """Ayudante recursivo podado del reporte por rango."""
         if nodo is None:
             return
         codigo = nodo.producto.codigo
@@ -208,14 +192,12 @@ class ArbolBST:
 
     # Complejidad: O(h) promedio, O(n) peor caso (árbol degenerado)
     def minimo(self) -> Optional[Producto]:
-        """Retorna el producto de código mínimo (iterativo)."""
         if self._raiz is None:
             return None
         return self._minimo_nodo(self._raiz).producto
 
     # Complejidad: O(h) promedio, O(n) peor caso (árbol degenerado)
     def maximo(self) -> Optional[Producto]:
-        """Retorna el producto de código máximo (iterativo)."""
         actual = self._raiz
         if actual is None:
             return None
@@ -225,7 +207,6 @@ class ArbolBST:
 
     # Complejidad: O(h) promedio, O(n) peor caso (árbol degenerado)
     def _minimo_nodo(self, nodo: NodoBST) -> NodoBST:
-        """Baja iterativamente a la izquierda hasta el mínimo."""
         actual = nodo
         while actual.izquierdo is not None:
             actual = actual.izquierdo
@@ -233,12 +214,10 @@ class ArbolBST:
 
     # Complejidad: O(n)
     def contar(self) -> int:
-        """Cuenta los nodos reutilizando el recorrido in-order."""
         total = 0
 
         # Complejidad: O(1) por visita, O(n) total
         def _visitar(producto: Producto) -> None:
-            """Incrementa el contador por cada nodo visitado."""
             nonlocal total
             total += 1
 
@@ -252,7 +231,6 @@ class ArbolBST:
 
     # Complejidad: O(n)
     def _altura_rec(self, nodo: Optional[NodoBST]) -> int:
-        """Ayudante recursivo que calcula la altura."""
         if nodo is None:
             return 0
         izq = self._altura_rec(nodo.izquierdo)
@@ -261,12 +239,10 @@ class ArbolBST:
 
     # Complejidad: O(n)
     def valor_total(self) -> float:
-        """Suma precio*stock reutilizando el recorrido in-order."""
         total = 0.0
 
         # Complejidad: O(1) por visita, O(n) total
         def _visitar(producto: Producto) -> None:
-            """Acumula precio*stock de cada nodo visitado."""
             nonlocal total
             total += producto.precio * producto.stock
 
